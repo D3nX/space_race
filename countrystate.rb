@@ -60,13 +60,7 @@ class  CountryState
       end
       i += 1
     end
-=begin
-    if @songs[0].playing? or @songs[1].playing? then
-      $menus_channel.pause() if !$menus_channel.paused?
-    else
-      $menus_channel.resume() if $menus_channel.paused?
-    end
-=end
+        
     if Fader::faded_in?() and @next_country != nil then
       $menus_channel.stop()
       $game.states[:game].set_spaceship_country(@next_country)
