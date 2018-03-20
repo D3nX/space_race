@@ -6,6 +6,8 @@ class Bullet
   attr_accessor :dy, :start_y, :damage
   
   def initialize
+    @@img = Image.new("res/bullet.png") if !defined? @@img
+    
     @x = 0
     @y = 0
     
@@ -19,7 +21,7 @@ class Bullet
     
     @damage = 4
     
-    @rectangle = Rectangle.new(0, 0, 5, 10)
+    @rectangle = Rectangle.new(0, 0, 10, 15)
   end
   
   def draw
@@ -27,20 +29,25 @@ class Bullet
     if @dy <= @y and @active then
       
       @y -= SPEED
+      
+      @rectangle.x = @x
+      @rectangle.y = @y
 
-      if @y + 10 > 0 and @active then
+      if @y + @@img.height > 0 and @active then
+=begin
         Gosu.draw_line(
           @x, @y, @color,
           @x, @y + 10, @color,
           500
         )
+=end
+        @@img.draw(@x, @y, 500, 1.0, 1.0, @color)
       end
     else
       @active = false
+      @rectangle.x = @x
+      @rectangle.y = @y
     end
-    
-    @rectangle.x = @x
-    @rectangle.y = @y
   end
   
   def active=(v)
@@ -71,6 +78,14 @@ class Bullet
   
   def collides?(rect)
     return rect.collides?(@rectangle)
+  end
+  
+  def width
+    return @@img.width
+  end
+  
+  def height
+    return @@img.height
   end
   
 end

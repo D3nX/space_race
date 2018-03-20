@@ -74,7 +74,11 @@ module Monsters
         @x = @fx + 300 + (Math::sin(@time) * 560)
         @y += @speed + booster_speed
       else
-        @y += 6 + booster_speed
+        if @lose_time == -1 then
+          @y += 6 + booster_speed
+        else
+          @y += @speed + booster_speed
+        end
       end
       
       if @y > $game.height then

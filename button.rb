@@ -53,7 +53,7 @@ class Button
     
     if @text != "" then
       $font.draw(@text,
-                 @x + 5,
+                 @x + 10,
                  @y + (@height - $font.height * 0.35) / 2,
                  @z,
                  0.35,
