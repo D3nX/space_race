@@ -30,6 +30,8 @@ class GameOverState
     if Fader::faded_in? then
       Fader::fade_out(10)
       $game.stop_shaking!
+      $game.score = 0.0
+      $game.distance = 0
     end
 
     if @defining_score then
