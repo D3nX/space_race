@@ -1,6 +1,7 @@
 # Space Race
 Just the source code of the game "Space Race" made in Ruby with Gosu.
-Or download windows version on itch.io -> d3nx.itch.io/space-race
+Or download windows version on itch.io
+<a>d3nx.itch.io/space-race<a/>
 
 # Run it
 Install Ruby & Gosu and run "main.rb"
