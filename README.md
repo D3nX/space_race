@@ -7,7 +7,7 @@ Install Ruby & Gosu and run "main.rb"
 
 # How it looks ?
 
-Like this :
-[image]"ruby 2018-03-20 11-00-14-67.png"[/image]
+Like this :<br />
+<image>"ruby 2018-03-20 11-00-14-67.png"</image>
 [image]"ruby 2018-03-20 11-00-17-04.png"[/image]
 [image]"ruby 2018-03-20 11-00-30-44.png"[/image]
