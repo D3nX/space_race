@@ -5,7 +5,7 @@ module Boosters
     attr_reader :x, :y, :img
     
     def initialize(path)
-      @x = rand($game.width)
+      @x = rand($game.settings.default_width)
       @y = 0
       
       @img = Image.new(path)
@@ -20,11 +20,11 @@ module Boosters
     
     def update(player_x, booster_speed, can_go_down)
       
-      @x -= (player_x - $game.width / 2) * 0.2
+      @x -= (player_x - $game.settings.default_width / 2) * 0.2
       
       @y += @speed + booster_speed if can_go_down
       
-      if @y > $game.height then
+      if @y > $game.settings.default_height then
         reset()
       end
       
@@ -34,10 +34,9 @@ module Boosters
     end
     
     def draw(player_x = nil)
-      # @rectangle.draw()
-      @img.draw(@x, @y, 500) if @img != nil
+      @img.draw(@x, @y, 500) if @img != nil and @y + @img.height > 0
       
-      @x += (player_x - $game.width / 2) * 0.2 if player_x != nil
+      @x += (player_x - $game.settings.default_width / 2) * 0.2 if player_x != nil
     end
     
     def collides?(rect)
@@ -47,7 +46,7 @@ module Boosters
     
     def reset
       @y = -rand(@base..@rarity)
-      @x = rand($game.width)
+      @x = rand($game.settings.default_width)
     end
     
   end

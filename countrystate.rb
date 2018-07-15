@@ -1,19 +1,19 @@
-class  CountryState
+class CountryState
 
   def initialize
     @buttons = [Button.new(0, 0, 500, "res/american_propaganda_n.png", "res/american_propaganda_s.png"),
                 Button.new(0, 0, 500, "res/ussr_propaganda_n.png", "res/ussr_propaganda_s.png"),
                 Button.new(0, 0, 500, "res/button_n.png", "res/button_s.png")]
 
-    @buttons[0].x = $game.width / 2 - @buttons[0].width - 75
+    @buttons[0].x = $game.settings.default_width / 2 - @buttons[0].width - 75
     @buttons[0].y = 100
 
-    @buttons[1].x = $game.width / 2 + 75
+    @buttons[1].x = $game.settings.default_width / 2 + 75
     @buttons[1].y = 100
 
     @buttons[2].text = "Go Menu"
     @buttons[2].x = 5
-    @buttons[2].y = $game.height - @buttons[2].height - 5
+    @buttons[2].y = $game.settings.default_height - @buttons[2].height - 5
 
     @songs = [Song.new("res/United States of America National Anthem (Instrumental).mp3"),
               Song.new("res/Soviet_Anthem_Instrumental_1955.mp3")]
@@ -43,9 +43,10 @@ class  CountryState
     @buttons.each do |button|
 
       if button.hover? and i < 2 and !@go_to_menu and $game.state != :menu then
-        @songs[i].play() if !@songs[i].playing?
+        @songs[i].play if !@songs[i].playing?
+        @songs[i].volume = ($game.settings.music_volume / 100.0)
       else
-        @songs[i].stop() if i < 2
+        @songs[i].stop if i < 2
       end
 
       if button.clicked? and i < 2 then
@@ -67,10 +68,9 @@ class  CountryState
       $menus_channel.resume() if $menus_channel.paused?
     end
 =end
-    if Fader::faded_in?() and @next_country != nil then
-      $menus_channel.stop()
-      $game.states[:game].set_spaceship_country(@next_country)
-      $game.state = :game
+    if Fader::faded_in?() and @next_country != nil
+      $game.states[:selector].set_country(@next_country)
+      $game.state = :selector
     end
 
   end
@@ -78,7 +78,7 @@ class  CountryState
   def draw
     StarAnimation.draw
     $font.draw("Choose your country :",
-               ($game.width - $font.text_width("Choose your country :", 0.5)) / 2,
+               ($game.settings.default_width - $font.text_width("Choose your country :", 0.5)) / 2,
                10,
                500, 0.5, 0.5,
                Color::RED)
@@ -94,6 +94,10 @@ class  CountryState
     @next_country = nil
     @go_to_menu = false
     @songs.each { |song| song.stop() }
+  end
+
+  def set_volume
+    @songs.each { |song| song.volume = (100.0 / $game.settings.music_volume) }
   end
 
 end

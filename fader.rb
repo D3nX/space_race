@@ -36,7 +36,8 @@ module Fader
   
   def self.draw
     # puts @@alpha
-    Gosu.draw_rect(0, 0, $game.width, $game.height, @@color, 500)
+    return if @@alpha == 0
+    Gosu.draw_rect(0, 0, $game.settings.default_width, $game.settings.default_height, @@color, 500)
   end
   
   def self.reset

@@ -20,7 +20,6 @@ class BonusText
       end
     end
     
-    puts "@bonus.size = #{@bonus.size}"
   end
   
   def make(x, y, nmb)

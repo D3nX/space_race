@@ -51,14 +51,14 @@ module Animation
     if @@animation != nil then
       
       if @@anim_state == 0 then
-        if @@y < $game.height / 4 then
+        if @@y < $game.settings.default_height / 4 then
           @@vspeed += @@speed if @@vspeed < 7.0
         else
           @@vspeed -= @@speed if @@vspeed > 0.6
           @@vspeed = 0.6 if @@vspeed <= 0.6
         end
         
-        if @@y + 64 > $game.height / 2
+        if @@y + 64 > $game.settings.default_height / 2
           @@anim_state = 1
         end
         
@@ -74,7 +74,7 @@ module Animation
         
         @@filter_color = Color.new(@@filter_color.alpha - 3, 0, 0, 0) if @@filter_color.alpha > 0
         
-        if @@y > $game.height then
+        if @@y > $game.settings.default_height then
           Animation::reset()
         end
         
@@ -93,38 +93,38 @@ module Animation
   
   def self.draw
     if @@animation != nil then
-      Gosu.draw_rect(0, 0, $game.width, $game.height, @@filter_color, 500)
+      Gosu.draw_rect(0, 0, $game.settings.default_width, $game.settings.default_height, @@filter_color, 500)
       if @@animation == :normal_booster then
-        Gosu.draw_rect(@@x, @@y, $game.width, 128, @@color, 500)
+        Gosu.draw_rect(@@x, @@y, $game.settings.default_width, 128, @@color, 500)
         $font.draw("Normal Booster",
-                   @@x + ($game.width - $font.text_width("Normal Booster")) / 2,
+                   @@x + ($game.settings.default_width - $font.text_width("Normal Booster")) / 2,
                    @@y + (128 - $font.height) / 2,
                    500)
       elsif @@animation == :super_booster then
-        Gosu.draw_rect(@@x, @@y, $game.width, 128, @@color, 500)
+        Gosu.draw_rect(@@x, @@y, $game.settings.default_width, 128, @@color, 500)
         $font.draw("Super Booster",
-                   @@x + ($game.width - $font.text_width("Super Booster")) / 2,
+                   @@x + ($game.settings.default_width - $font.text_width("Super Booster")) / 2,
                    @@y + (128 - $font.height) / 2,
                    500)
       elsif @@animation == :hyper_booster then
         # puts @@lsd_filter_angle
-        @@lsd_filter.draw_rot($game.width / 2, $game.height / 2, 500,
+        @@lsd_filter.draw_rot($game.settings.default_width / 2, $game.settings.default_height / 2, 500,
                               @@lsd_filter_angle,
                               0.5,
                               0.5,
                               1.0,
                               1.0,
                               @@lsd_filter_color) 
-        ($game.width / 128 + 1).times do |i|
+        ($game.settings.default_width / 128 + 1).times do |i|
           x = @@star_x + i * 128
-          if x > $game.width then
-            x = @@star_x + i * 128 - $game.width - 128
+          if x > $game.settings.default_width then
+            x = @@star_x + i * 128 - $game.settings.default_width - 128
           end
           @@star_image.draw(x, @@y, 500)
         end
-        Gosu.draw_rect(@@x, @@y, $game.width, 128, @@color, 500)
+        Gosu.draw_rect(@@x, @@y, $game.settings.default_width, 128, @@color, 500)
                        $font.draw("Hyper Booster",
-                       @@x + ($game.width - $font.text_width("Hyper Booster")) / 2,
+                       @@x + ($game.settings.default_width - $font.text_width("Hyper Booster")) / 2,
                        @@y + (128 - $font.height) / 2,
                        500)
       end

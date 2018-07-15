@@ -20,7 +20,7 @@ class Asteroid
     @lose_limit = @@lose_animation.size * 10
     @lose_alpha = 0
     
-    @x = rand(0..$game.width)
+    @x = rand(0..$game.settings.default_width)
     @y = -@@imgs[@current_image].height - rand(1000..10000)
     
     @angle = rand(360)
@@ -37,8 +37,10 @@ class Asteroid
     @y = -@@imgs[@current_image].height - rand(1000..25000)
   end
   
-  def update(player_x, booster_speed)
-    @x -= (player_x - $game.width / 2) * 0.2
+  def update(player_x, booster_speed, move = true)
+    @x -= (player_x - $game.settings.default_width / 2) * 0.2
+
+    return if not move
     
     if @lose_time != -1 and !dead? then
       @y += @speed + booster_speed
@@ -67,7 +69,7 @@ class Asteroid
       @lose_alpha += 5 if @lose_alpha < 200
     end
     
-    if @y - @@imgs[@current_image].height > $game.height then
+    if @y - @@imgs[@current_image].height > $game.settings.default_height then
       reset()
     end
     
@@ -76,21 +78,23 @@ class Asteroid
   end
   
   def draw(player_x = nil)
-    if @life != @last_life and !dead? then
-      @@imgs[@current_image].draw_rot(@x, @y, 500, @angle, 0.5, 0.5, 1.0, 1.0, Color::RED)
-      @last_life = @life
-    elsif !dead?
-      @@imgs[@current_image].draw_rot(@x, @y, 500, @angle)
-    else
-      if @lose_time != -1 then
-        @@lose_animation[(@lose_time / 10 % @@lose_animation.size).to_i].draw(@x, @y, 400, 2.0, 2.0)
+    if @y + @@imgs[@current_image].height > 0
+      if @life != @last_life and !dead? then
+        @@imgs[@current_image].draw_rot(@x, @y, 500, @angle, 0.5, 0.5, 1.0, 1.0, Color::RED)
+        @last_life = @life
+      elsif !dead?
+        @@imgs[@current_image].draw_rot(@x, @y, 500, @angle)
       else
-        @@smokes_img[@current_smoke].draw(@x, @y, 400, 0.5, 0.5, Color.new(@lose_alpha, 255, 255, 255))
+        if @lose_time != -1 then
+          @@lose_animation[(@lose_time / 10 % @@lose_animation.size).to_i].draw(@x, @y, 400, 2.0, 2.0)
+        else
+          @@smokes_img[@current_smoke].draw(@x, @y, 400, 0.5, 0.5, Color.new(@lose_alpha, 255, 255, 255))
+        end
       end
     end
     # @rectangle.draw()
       
-    @x += (player_x - $game.width / 2) * 0.2 if player_x != nil
+    @x += (player_x - $game.settings.default_width / 2) * 0.2 if player_x != nil
   end
   
   def reset
